@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gradient Generator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="main">
+      <h1>Generate Gradient</h1>
+
+      <div class="color-buttons">
+        <button class="color-btn" id="color1">#051937</button>
+        <button class="color-btn" id="color2">#008793</button>
+      </div>
+
+      <p class="copy-text">Copy your code here</p>
+
+      <div class="code-box" id="codeBox">
+        background-image: linear-gradient(to right, rgb(92, 145, 229), rgb(152,
+        63, 198));
+      </div>
+
+      <div class="bg-type">Type: Linear Gradient</div>
+    </div>
+    <script>
+      // Utility to generate random hex color
+      function getRandomColor() {
+        const hex = Math.floor(Math.random() * 0xffffff).toString(16);
+        return `#${hex.padStart(6, "0")}`;
+      }
+
+      // Elements
+      const colorBtn1 = document.getElementById("color1");
+      const colorBtn2 = document.getElementById("color2");
+      const codeBox = document.getElementById("codeBox");
+      const bgType = document.getElementById("bgType");
+      const body = document.body;
+
+      // Generate new gradient and update UI
+      function generateGradient() {
+        const color1 = getRandomColor();
+        const color2 = getRandomColor();
+
+        const gradient = `linear-gradient(to right, ${color1}, ${color2})`;
+        body.style.backgroundImage = gradient;
+
+        // Update button texts
+        colorBtn1.textContent = color1;
+        colorBtn2.textContent = color2;
+
+        // Update code
+        codeBox.textContent = `background-image: ${gradient};`;
+      }
+
+      // Copy CSS to clipboard
+      codeBox.addEventListener("click", () => {
+        navigator.clipboard.writeText(codeBox.textContent).then(() => {
+          codeBox.textContent = "Copied to clipboard!";
+          setTimeout(() => generateGradient(), 800); // auto-regenerate after copy
+        });
+      });
+
+      // Initial generation
+      generateGradient();
+
+      // Optional: Regenerate on any button click
+      colorBtn1.addEventListener("click", generateGradient);
+      colorBtn2.addEventListener("click", generateGradient);
+    </script>
+  </body>
+</html>
